@@ -11,7 +11,7 @@ function App () {
 function searchForSymbol (inputText) {
     const fetchUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${inputText}&apikey=${token2}`
     fetchData(fetchUrl)
-     .then(res => console.log(res))
+     .then(res => console.log(res['Meta Data']['2. Symbol']))
 }
 
     return (

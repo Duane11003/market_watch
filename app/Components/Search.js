@@ -3,10 +3,8 @@ import React, {useEffect, useState} from 'react'
 function Search ({searchForSymbol}) {
 
 const [input, setInput] = useState('')
-console.log(input, 'is the state!!!')
 
 function symbolCall () {
-  console.log('search!', input)
   searchForSymbol(input);
   setInput('');
 }
