@@ -16,24 +16,27 @@ function App () {
     const [error, setError] = useState(false)
     const [favoriteStock, setFavoriteStock] = useState([])
 
-function searchForSymbol (inputText) {
-    const fetchUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${inputText}&apikey=${token2}`
-    fetchData(fetchUrl)
-     .then(res => { 
-         if (!res) setError(true)
-        const arrFromObject = Object.values(res['Time Series (Daily)'])
-        const currentDayPrices = arrFromObject[arrFromObject.length-1]
-        setSymbol(res['Meta Data']['2. Symbol'])
-        // Math.ceil(currentDayPrices['2. high'] * 100) / 100
-        setDailyOpenPrice(Math.ceil(currentDayPrices['1. open'] * 100) / 100)
-        setDailyHighPrice(Math.ceil(currentDayPrices['2. high'] * 100) / 100)
-        setDailyLowPrice(Math.ceil(currentDayPrices['3. low'] * 100) / 100)
-        setDailyClosingPrice(Math.ceil(currentDayPrices['4. close'] * 100) / 100)
-     }).catch((err) => {
-         setError('There was an error:', err)
-     })
-}
+    const addToFav = (fav) => setFavoriteStock(favoriteStock.concat(fav))
 
+    function searchForSymbol (inputText) {
+        const fetchUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${inputText}&apikey=${token2}`
+        fetchData(fetchUrl)
+        .then(res => { 
+            if (!res) setError(true)
+            const arrFromObject = Object.values(res['Time Series (Daily)'])
+            const currentDayPrices = arrFromObject[arrFromObject.length-1]
+            setSymbol(res['Meta Data']['2. Symbol'])
+            // Math.ceil(currentDayPrices['2. high'] * 100) / 100
+            setDailyOpenPrice(Math.ceil(currentDayPrices['1. open'] * 100) / 100)
+            setDailyHighPrice(Math.ceil(currentDayPrices['2. high'] * 100) / 100)
+            setDailyLowPrice(Math.ceil(currentDayPrices['3. low'] * 100) / 100)
+            setDailyClosingPrice(Math.ceil(currentDayPrices['4. close'] * 100) / 100)
+        }).catch((err) => {
+            setError('There was an error:', err)
+        })
+    }
+
+    console.log(favoriteStock)
     return (
         <Fragment>
             <Search searchForSymbol={searchForSymbol} />
@@ -44,9 +47,9 @@ function searchForSymbol (inputText) {
                 {dailyHighPrice !== null ? <p>High Price: ${dailyHighPrice}</p> : null}
                 {dailyLowPrice !== null ? <p>Low Price: ${dailyLowPrice}</p> : null}
                 {dailyClosingPrice !== null ? <p>Closing Price: ${dailyClosingPrice}</p> : null}
-                {symbol !== null ? <button>Add to Favorites</button> : null}
+                {symbol !== null ? <button onClick={() => addToFav}>Add to Favorites</button> : null}
             </div>
-            <Favorites favoriteStock={favoriteStock} />
+            {symbol !== null ? <Favorites favoriteStock={favoriteStock} /> : null}
         </Fragment>
     )
 }

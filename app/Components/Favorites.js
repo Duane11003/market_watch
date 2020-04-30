@@ -3,7 +3,7 @@ import React from 'react'
 function Favorites({favoriteStock}) {
     return (
         <div>
-            <p>Favorite Symbols</p>
+            <p>Favorite Stocks:</p>
         </div>
     )
 }
