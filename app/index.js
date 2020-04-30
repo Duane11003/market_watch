@@ -16,7 +16,19 @@ function App () {
     const [error, setError] = useState(false)
     const [favoriteStock, setFavoriteStock] = useState([])
 
-    const addToFav = (fav) => setFavoriteStock(favoriteStock.concat(fav))
+    function generateId () {
+        return '_' + Math.random().toString(36).substr(2, 9);
+      }
+
+
+    const addToFav = () => {
+        setFavoriteStock((favoriteStock) => favoriteStock.concat({
+            text: symbol,
+            id: generateId()
+        }))
+    }
+      
+    const deleteFavorite = (id) => setFavoriteStock((favoriteStock) => favoriteStock.filter((item) => item.id !== id))
 
     function searchForSymbol (inputText) {
         const fetchUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${inputText}&apikey=${token2}`
@@ -26,7 +38,6 @@ function App () {
             const arrFromObject = Object.values(res['Time Series (Daily)'])
             const currentDayPrices = arrFromObject[arrFromObject.length-1]
             setSymbol(res['Meta Data']['2. Symbol'])
-            // Math.ceil(currentDayPrices['2. high'] * 100) / 100
             setDailyOpenPrice(Math.ceil(currentDayPrices['1. open'] * 100) / 100)
             setDailyHighPrice(Math.ceil(currentDayPrices['2. high'] * 100) / 100)
             setDailyLowPrice(Math.ceil(currentDayPrices['3. low'] * 100) / 100)
@@ -48,6 +59,7 @@ function App () {
                 {dailyLowPrice !== null ? <p>Low Price: ${dailyLowPrice}</p> : null}
                 {dailyClosingPrice !== null ? <p>Closing Price: ${dailyClosingPrice}</p> : null}
                 {symbol !== null ? <button onClick={() => addToFav(symbol)}>Add to Favorites</button> : null}
+                {/* {symbol !== null ? <button onClick={(id) => deleteFavorite(id)}>Delete Favorite</button> : null} */}
             </div>
             {symbol !== null ? <Favorites favoriteStock={favoriteStock} /> : null}
         </Fragment>
