@@ -47,7 +47,7 @@ function App () {
                 {dailyHighPrice !== null ? <p>High Price: ${dailyHighPrice}</p> : null}
                 {dailyLowPrice !== null ? <p>Low Price: ${dailyLowPrice}</p> : null}
                 {dailyClosingPrice !== null ? <p>Closing Price: ${dailyClosingPrice}</p> : null}
-                {symbol !== null ? <button onClick={() => addToFav}>Add to Favorites</button> : null}
+                {symbol !== null ? <button onClick={() => addToFav(symbol)}>Add to Favorites</button> : null}
             </div>
             {symbol !== null ? <Favorites favoriteStock={favoriteStock} /> : null}
         </Fragment>
