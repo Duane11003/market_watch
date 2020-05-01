@@ -1,9 +1,19 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 
 function Favorites({favoriteStock}) {
     return (
         <div>
-            <p>Favorite Stocks:</p>
+             <h3>Favorites:</h3>
+            <ul>
+            {favoriteStock.map((item) => {
+                return (
+                    <Fragment>
+                        <li key={item.id}>{item.text}</li>
+                        <button key={item.id}>Delete</button>
+                    </Fragment>
+                    )
+                })}
+            </ul>
         </div>
     )
 }
